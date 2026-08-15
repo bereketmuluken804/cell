@@ -33,16 +33,17 @@ describe('maskHours', () => {
   test('four digits split at HH:MM', () => {
     expect(maskHours('1200')).toBe('12:00');
     expect(maskHours('1234')).toBe('12:34');
-    expect(maskHours('2400')).toBe('24:00');
-    expect(maskHours('2459')).toBe('24:59');
+    expect(maskHours('2359')).toBe('23:59');
     expect(maskHours('0032')).toBe('0:32');
     expect(maskHours('0000')).toBe('0:00');
   });
 
-  test('hours clamp to 24 and minutes to 59', () => {
-    expect(maskHours('2599')).toBe('24:59');
+  test('hours clamp to 23 and minutes to 59', () => {
+    expect(maskHours('2599')).toBe('23:59');
     expect(maskHours('1299')).toBe('12:59');
-    expect(maskHours('9999')).toBe('24:59');
+    expect(maskHours('9999')).toBe('23:59');
+    expect(maskHours('2400')).toBe('23:00');
+    expect(maskHours('2459')).toBe('23:59');
   });
 
   test('at most four digits are kept', () => {
@@ -65,7 +66,7 @@ describe('maskHours', () => {
   test('the 4th digit moves the colon into the correct place', () => {
     // Typing "1200" lands here because the mask inserts ":" after 3 digits.
     expect(maskHours('1:200')).toBe('12:00');
-    expect(maskHours('8:300')).toBe('24:00');
+    expect(maskHours('8:300')).toBe('23:00');
     expect(maskHours('0:032')).toBe('0:32');
   });
 });

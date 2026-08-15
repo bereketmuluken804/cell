@@ -155,7 +155,7 @@ class HourPickerActivity : Activity() {
         val digits = raw.replace(Regex("[^0-9]"), "").take(4)
         if (digits.isEmpty()) return ""
         if (digits.length <= 2) return digits.toInt().toString()
-        val hours = minOf(digits.dropLast(2).toInt(), 24)
+        val hours = minOf(digits.dropLast(2).toInt(), 23)
         val minutes = minOf(digits.takeLast(2).toInt(), 59)
         return "$hours:${minutes.toString().padStart(2, '0')}"
     }

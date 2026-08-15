@@ -2,7 +2,7 @@
 //
 // Auto-formats digits as the user types: "230" -> "2:30", "1200" -> "12:00",
 // "0032" -> "0:32". One or two digits stay as plain hours ("8", "23"). Hours
-// are clamped to 24 and minutes to 59 so the field always stays valid, and at
+// are clamped to 23 and minutes to 59 so the field stays within 23:59, and at
 // most four digits are kept.
 //
 // Because the mask inserts the colon as soon as three digits are typed, the
@@ -17,7 +17,7 @@ export function maskHours(text: string): string {
   if (digits.length <= 2) return String(Number(digits));
   const rawHours = Number(digits.slice(0, -2));
   const rawMinutes = Number(digits.slice(-2));
-  const hours = Math.min(rawHours, 24);
+  const hours = Math.min(rawHours, 23);
   const minutes = Math.min(rawMinutes, 59);
   return `${hours}:${String(minutes).padStart(2, '0')}`;
 }
