@@ -14,7 +14,7 @@ import { fontFamily, fontFamilyMedium } from './theme';
 
 const BG = '#0D1117';
 const TEXT = '#F0F6FC';
-const MUTED = '#8B949E';
+const MUTED = '#B3BCC8';
 const ACCENT = '#2E7CF6';
 const DOT_INACTIVE = '#3A434D';
 
@@ -61,9 +61,10 @@ export default function Onboarding({ onFinish }: { onFinish: () => void }) {
   const scrollX = useRef(new Animated.Value(0)).current;
   const [page, setPage] = useState(0);
 
-  const imageArea = clamp(height * 0.48, 220, 430);
-  const titleSize = clamp(width * 0.072, 24, 32);
-  const subtitleSize = clamp(width * 0.042, 14, 17);
+  const titleSize = clamp(width * 0.062, 22, 30);
+  const subtitleSize = clamp(width * 0.041, 13, 16);
+  const textGap = clamp(height * 0.012, 8, 14);
+  const controlsBar = insets.bottom + 140;
 
   const goTo = (index: number) => {
     setPage(index);
@@ -97,90 +98,61 @@ export default function Onboarding({ onFinish }: { onFinish: () => void }) {
     });
 
   const renderSlide = ({ item }: { item: Slide }) => (
-    <View
-      style={{
-        width,
-        paddingHorizontal: 28,
-        alignItems: 'center',
-      }}
-    >
+    <View style={{ width, height }}>
+      <Image source={item.image} resizeMode="cover" style={{ width, height }} />
       <View
+        pointerEvents="none"
         style={{
-          width: width - 40,
-          height: imageArea,
-          justifyContent: 'center',
+          position: 'absolute',
+          left: 0,
+          right: 0,
+          bottom: 0,
+          height: '52%',
+          backgroundColor: 'rgba(13,17,23,0.6)',
+        }}
+      />
+      <View
+        pointerEvents="none"
+        style={{
+          position: 'absolute',
+          left: 0,
+          right: 0,
+          bottom: 0,
+          paddingBottom: controlsBar,
+          paddingHorizontal: 32,
+          alignItems: 'center',
         }}
       >
-        <Image
-          source={item.image}
-          resizeMode="contain"
-          style={{ width: '100%', height: '100%' }}
-        />
+        <Text
+          style={{
+            color: TEXT,
+            fontSize: titleSize,
+            lineHeight: Math.round(titleSize * 1.22),
+            fontFamily: fontFamilyMedium,
+            textAlign: 'center',
+          }}
+        >
+          {item.title}
+        </Text>
+        <Text
+          style={{
+            color: MUTED,
+            fontSize: subtitleSize,
+            lineHeight: Math.round(subtitleSize * 1.4),
+            fontFamily: fontFamily,
+            textAlign: 'center',
+            marginTop: textGap,
+          }}
+        >
+          {item.subtitle}
+        </Text>
       </View>
-      <Text
-        style={{
-          color: TEXT,
-          fontSize: titleSize,
-          lineHeight: Math.round(titleSize * 1.25),
-          fontFamily: fontFamilyMedium,
-          textAlign: 'center',
-          marginTop: 18,
-        }}
-      >
-        {item.title}
-      </Text>
-      <Text
-        style={{
-          color: MUTED,
-          fontSize: subtitleSize,
-          lineHeight: Math.round(subtitleSize * 1.45),
-          fontFamily: fontFamily,
-          textAlign: 'center',
-          marginTop: 10,
-          paddingHorizontal: 8,
-        }}
-      >
-        {item.subtitle}
-      </Text>
     </View>
   );
 
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: BG,
-        paddingTop: insets.top,
-        paddingBottom: insets.bottom,
-      }}
-    >
-      <StatusBar barStyle="light-content" backgroundColor={BG} />
-      <Pressable
-        testID="onb_skip"
-        onPress={onFinish}
-        hitSlop={12}
-        style={({ pressed }) => [
-          {
-            position: 'absolute',
-            top: insets.top + 4,
-            right: 24,
-            paddingVertical: 8,
-            paddingHorizontal: 10,
-            zIndex: 10,
-            opacity: pressed ? 0.55 : 1,
-          },
-        ]}
-      >
-        <Text
-          style={{
-            color: MUTED,
-            fontSize: 14,
-            fontFamily: fontFamilyMedium,
-          }}
-        >
-          Skip
-        </Text>
-      </Pressable>
+    <View style={{ flex: 1, backgroundColor: BG }}>
+      <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
 
       <Animated.FlatList
         ref={listRef}
@@ -205,13 +177,57 @@ export default function Onboarding({ onFinish }: { onFinish: () => void }) {
         style={{ flex: 1 }}
       />
 
+      <Pressable
+        testID="onb_skip"
+        onPress={onFinish}
+        hitSlop={12}
+        style={({ pressed }) => [
+          {
+            position: 'absolute',
+            top: insets.top + 6,
+            right: 24,
+            paddingVertical: 8,
+            paddingHorizontal: 10,
+            borderRadius: 14,
+            backgroundColor: 'rgba(13,17,23,0.5)',
+            zIndex: 10,
+            opacity: pressed ? 0.55 : 1,
+          },
+        ]}
+      >
+        <Text
+          style={{
+            color: '#F0F6FC',
+            fontSize: 14,
+            fontFamily: fontFamilyMedium,
+          }}
+        >
+          Skip
+        </Text>
+      </Pressable>
+
+      <View
+        pointerEvents="none"
+        style={{
+          position: 'absolute',
+          left: 0,
+          right: 0,
+          bottom: 0,
+          height: insets.bottom + 104,
+          backgroundColor: 'rgba(13,17,23,0.72)',
+        }}
+      />
       <View
         style={{
+          position: 'absolute',
+          left: 0,
+          right: 0,
+          bottom: 0,
+          paddingBottom: insets.bottom + 6,
           alignItems: 'center',
-          paddingBottom: 8,
         }}
       >
-        <View testID="onb_dots" style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 22 }}>
+        <View testID="onb_dots" style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
           {SLIDES.map((s, i) => (
             <Animated.View
               key={s.key}
