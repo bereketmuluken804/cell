@@ -13,10 +13,15 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { fontFamily, fontFamilyMedium } from './theme';
 
 const BG = '#0D1117';
-const TEXT = '#F0F6FC';
-const MUTED = '#B3BCC8';
+const TITLE = '#FFD98A';
+const SUBTITLE = '#FFF3DC';
 const ACCENT = '#2E7CF6';
-const DOT_INACTIVE = '#3A434D';
+const DOT_INACTIVE = 'rgba(255,255,255,0.5)';
+const TEXT_SHADOW = {
+  textShadowColor: 'rgba(0,0,0,0.85)',
+  textShadowOffset: { width: 0, height: 2 },
+  textShadowRadius: 6,
+};
 
 const imgHome = require('../assets/onboarding_home.jpg');
 const imgLog = require('../assets/onboarding_log.jpg');
@@ -107,17 +112,6 @@ export default function Onboarding({ onFinish }: { onFinish: () => void }) {
           left: 0,
           right: 0,
           bottom: 0,
-          height: '52%',
-          backgroundColor: 'rgba(13,17,23,0.6)',
-        }}
-      />
-      <View
-        pointerEvents="none"
-        style={{
-          position: 'absolute',
-          left: 0,
-          right: 0,
-          bottom: 0,
           paddingBottom: controlsBar,
           paddingHorizontal: 32,
           alignItems: 'center',
@@ -125,23 +119,25 @@ export default function Onboarding({ onFinish }: { onFinish: () => void }) {
       >
         <Text
           style={{
-            color: TEXT,
+            color: TITLE,
             fontSize: titleSize,
             lineHeight: Math.round(titleSize * 1.22),
             fontFamily: fontFamilyMedium,
             textAlign: 'center',
+            ...TEXT_SHADOW,
           }}
         >
           {item.title}
         </Text>
         <Text
           style={{
-            color: MUTED,
+            color: SUBTITLE,
             fontSize: subtitleSize,
             lineHeight: Math.round(subtitleSize * 1.4),
             fontFamily: fontFamily,
             textAlign: 'center',
             marginTop: textGap,
+            ...TEXT_SHADOW,
           }}
         >
           {item.subtitle}
@@ -206,17 +202,6 @@ export default function Onboarding({ onFinish }: { onFinish: () => void }) {
         </Text>
       </Pressable>
 
-      <View
-        pointerEvents="none"
-        style={{
-          position: 'absolute',
-          left: 0,
-          right: 0,
-          bottom: 0,
-          height: insets.bottom + 104,
-          backgroundColor: 'rgba(13,17,23,0.72)',
-        }}
-      />
       <View
         style={{
           position: 'absolute',
