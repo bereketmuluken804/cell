@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/date_label_root"
+    android:layout_width="14dp"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical|end"
+    android:textSize="8sp"
+    android:maxLines="1"
+    android:paddingRight="2dp"
+    android:text="" />

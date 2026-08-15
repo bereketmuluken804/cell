@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Cell</string>
+    <string name="widget_description">Tracks one habit as a GitHub-style month grid</string>
+    <string name="config_title">Configure Habit Widget</string>
+    <string name="config_subtitle">Pick which habit this widget shows. You can add multiple widgets, one per habit.</string>
+    <string name="config_habit_label">Habit</string>
+    <string name="config_style_label">Style</string>
+    <string name="config_black_bg">Black background</string>
+    <string name="config_opacity_label">Tile opacity</string>
+    <string name="config_save">Save widget</string>
+    <string name="config_no_habits">No habits yet. Open the app and add a habit first.</string>
+    <string name="legend">0h | 1-2h | 3-4h | 5-6h | 6+h</string>
+    <string name="widget_open_app">Open app</string>
+</resources>
