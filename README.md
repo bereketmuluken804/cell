@@ -4,6 +4,14 @@ A friendly habit tracker that puts your month grid right on the home screen. Log
 
 Cell is named after those squares. Each day is one cell. The more hours you log, the darker it gets. Over a month you see a picture of your consistency that a checklist just cannot give you.
 
+## Screenshots
+
+A quick tour of what you meet on first launch.
+
+| Welcome | Log hours | Home screen widget | Streaks |
+|---|---|---|---|
+| ![Welcome screen](assets/onboarding_home.jpg) | ![Logging hours](assets/onboarding_log.jpg) | ![The widget on your home screen](assets/onboarding_widget.jpg) | ![Streak progress](assets/onboarding_streaks.jpg) |
+
 ## Features
 
 - A native Android widget that renders your month grid on the home screen. Add one per habit, and page through months without opening the app.
