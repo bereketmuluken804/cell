@@ -33,9 +33,9 @@ async function render(onFinish: () => void) {
 }
 
 function press(root: ReactTestRenderer.ReactTestRenderer, testID: string) {
-  const node = root.root.findByProps({ testID });
+  const nodes = root.root.findAllByProps({ testID });
   ReactTestRenderer.act(() => {
-    node.props.onPress();
+    nodes[0].props.onPress();
   });
 }
 
@@ -46,7 +46,7 @@ async function unmount(root: ReactTestRenderer.ReactTestRenderer) {
 }
 
 function label(root: ReactTestRenderer.ReactTestRenderer): string {
-  const btn = root.root.findByProps({ testID: 'onb_next' });
+  const btn = root.root.findAllByProps({ testID: 'onb_next' })[0];
   const text = btn.findAllByType(Text);
   return text.length ? text[0].props.children : '';
 }
