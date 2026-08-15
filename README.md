@@ -1,97 +1,79 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# Cell
 
-# Getting Started
+Cell is a habit tracker built around a month grid. Every day is one square. Log hours and the square fills in, darker with more time. It looks like a GitHub contribution graph, one square per day, and it lives on your home screen.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+The grid does the talking. A checklist tells you whether you did a thing. A wall of cells shows how much, and how consistent, across weeks and months.
 
-## Step 1: Start Metro
+## Log hours
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+Type `2:30` or `2.5`. The input auto-formats as you type, so `1200` becomes `12:00`, and pasting `2:30` stays `2:30`. Tap any past day to backdate or correct it.
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+Each habit has a daily goal in hours, 8 by default. Shading runs on a seven-step scale against that goal, so a light square and a dark square mean different things on different habits.
 
-```sh
-# Using npm
+## Streaks
+
+Cell reports a current streak and a longest streak, with the dates of the longest run. Skip today and the streak turns at risk. Skip two days and it breaks. No silent reset.
+
+## Timer
+
+Timing is built in. The count-up timer runs as a foreground service, so it keeps counting when you leave the app. Stop it and the elapsed time is logged.
+
+## Home screen widget
+
+The widget is plain Android, rendering the grid natively. Add as many as you like, one per habit. It shows the month grid, the current streak, and a row of controls: previous and next month, a timer start, and a jump to today. Tapping the grid opens the app.
+
+When you add a widget, a config screen asks which habit it should show and how it should look. Black background and tile opacity are per widget, so two widgets can look different.
+
+## Themes
+
+Dark and light, plus a few accent palettes. Set once, applied across the app.
+
+## Data
+
+There is no account and no server. All data lives on the device, written to SharedPreferences.
+
+## Project layout
+
+```
+App.tsx                       app UI
+src/hoursInput.ts             hh:mm input mask
+src/streaks.ts                streak math
+src/levels.ts                 cell shading levels
+src/Onboarding.tsx            first-run screens
+src/HabitGrid.tsx             month grid components
+android/app/src/main/java/com/com.habittrackerwidget/
+                              native widget, timer service, config
+```
+
+## Getting started
+
+```
+npm install
 npm start
-
-# OR using Yarn
-yarn start
-```
-
-## Step 2: Build and run your app
-
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
-
-### Android
-
-```sh
-# Using npm
 npm run android
-
-# OR using Yarn
-yarn android
 ```
 
-### iOS
+Run it on a device or emulator. The app itself also builds for iOS, though the widget is Android-only.
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
+## Tests
 
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
-bundle install
+```
+npm test
+npm run lint
+npx tsc --noEmit
 ```
 
-Then, and every time you update your native dependencies, run:
+Jest covers the streak math, the level shading, the hour input mask, and onboarding.
 
-```sh
-bundle exec pod install
+## Building a release APK
+
+```
+cd android
+./gradlew assembleRelease
 ```
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+Set `JAVA_HOME` to the Android Studio JBR if Gradle cannot find Java. The APK lands in `android/app/build/outputs/apk/release/app-release.apk`.
 
-```sh
-# Using npm
-npm run ios
+## Stack
 
-# OR using Yarn
-yarn ios
-```
-
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
-
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
-
-## Step 3: Modify your app
-
-Now that you have successfully run the app, let's make changes!
-
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
-
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
-
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+React Native 0.86 and React 19 on the app side, TypeScript throughout. The widget is Kotlin: GridRenderer, HabitStore, Streaks, ThemePalette, and a timer service, reading the same SharedPreferences the app writes.
