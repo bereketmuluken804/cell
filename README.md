@@ -1,36 +1,36 @@
 # Cell
 
-Cell is a habit tracker built around a month grid. Every day is one square. Log hours and the square fills in, darker with more time. It looks like a GitHub contribution graph, one square per day, and it lives on your home screen.
+A friendly habit tracker that puts your month grid right on the home screen. Log a little time each day and watch the squares fill in, one by one.
 
-The grid does the talking. A checklist tells you whether you did a thing. A wall of cells shows how much, and how consistent, across weeks and months.
+Cell is named after those squares. Each day is one cell. The more hours you log, the darker it gets. Over a month you see a picture of your consistency that a checklist just cannot give you.
 
-## Log hours
+## Features
 
-Type `2:30` or `2.5`. The input auto-formats as you type, so `1200` becomes `12:00`, and pasting `2:30` stays `2:30`. Tap any past day to backdate or correct it.
+- A native Android widget that renders your month grid on the home screen. Add one per habit, and page through months without opening the app.
+- Hour logging with an input that auto-formats as you type. Type `2:30` or `2.5` and it just works.
+- Daily goals per habit, with cell shading that scales to your goal.
+- Streaks that stay honest. Skip today and your streak turns at risk. Skip two days and it breaks.
+- A built-in count-up timer that keeps running as a foreground service when you leave the app.
+- Dark and light themes with a few accent palettes to pick from.
+- First-run onboarding screens so a new phone feels familiar right away.
 
-Each habit has a daily goal in hours, 8 by default. Shading runs on a seven-step scale against that goal, so a light square and a dark square mean different things on different habits.
+## Getting started
 
-## Streaks
+Cell is a React Native app. From the project folder:
 
-Cell reports a current streak and a longest streak, with the dates of the longest run. Skip today and the streak turns at risk. Skip two days and it breaks. No silent reset.
+```
+npm install
+npm start
+npm run android
+```
 
-## Timer
+That runs it on a connected device or emulator. The widget needs Android, and the app itself also builds for iOS if you ever want it there.
 
-Timing is built in. The count-up timer runs as a foreground service, so it keeps counting when you leave the app. Stop it and the elapsed time is logged.
+## Usage
 
-## Home screen widget
+Tap any day on the grid to log hours. You can backdate to fix a missed day. The daily goal is per habit (8 hours by default), so a light square means something different on a habit with a 20-hour day than on one with a 2-hour day.
 
-The widget is plain Android, rendering the grid natively. Add as many as you like, one per habit. It shows the month grid, the current streak, and a row of controls: previous and next month, a timer start, and a jump to today. Tapping the grid opens the app.
-
-When you add a widget, a config screen asks which habit it should show and how it should look. Black background and tile opacity are per widget, so two widgets can look different.
-
-## Themes
-
-Dark and light, plus a few accent palettes. Set once, applied across the app.
-
-## Data
-
-There is no account and no server. All data lives on the device, written to SharedPreferences.
+Streaks show up as a number with a label, so you always know whether today counts or whether you need to act before the streak slips.
 
 ## Project layout
 
@@ -45,16 +45,6 @@ android/app/src/main/java/com/com.habittrackerwidget/
                               native widget, timer service, config
 ```
 
-## Getting started
-
-```
-npm install
-npm start
-npm run android
-```
-
-Run it on a device or emulator. The app itself also builds for iOS, though the widget is Android-only.
-
 ## Tests
 
 ```
@@ -63,7 +53,7 @@ npm run lint
 npx tsc --noEmit
 ```
 
-Jest covers the streak math, the level shading, the hour input mask, and onboarding.
+Jest covers the streak math, the shading levels, the hour input mask, and the onboarding screens.
 
 ## Building a release APK
 
@@ -74,6 +64,10 @@ cd android
 
 Set `JAVA_HOME` to the Android Studio JBR if Gradle cannot find Java. The APK lands in `android/app/build/outputs/apk/release/app-release.apk`.
 
+## Data
+
+No account, no server, no signup. Everything is stored on your device.
+
 ## Stack
 
-React Native 0.86 and React 19 on the app side, TypeScript throughout. The widget is Kotlin: GridRenderer, HabitStore, Streaks, ThemePalette, and a timer service, reading the same SharedPreferences the app writes.
+React Native 0.86 and React 19, TypeScript end to end. The widget side is Kotlin: GridRenderer, HabitStore, Streaks, ThemePalette, and a timer service, all reading the same SharedPreferences the app writes.
